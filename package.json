@@ -4,7 +4,7 @@
   "description": "Additional typing assets and helpers for better TypeScript experience",
   "main": "index.js",
   "scripts": {
-    "test": "jest --watch"
+    "test": "jest --watch=all"
   },
   "keywords": [
     "typescript",
