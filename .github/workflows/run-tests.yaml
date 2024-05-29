@@ -9,13 +9,9 @@ on:
 jobs:
     build:
         runs-on: ubuntu-latest
+        container: node:20
 
         steps:
-        - uses: actions/checkout@v3
-        - name: Use Node.js 
-          uses: action/setup-node@v3
-          with:
-              cache: 'npm'
         - run: npm ci
     tests:
         runs-on: ubuntu-latest
