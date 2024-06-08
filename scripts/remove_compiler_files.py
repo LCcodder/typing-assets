@@ -12,7 +12,7 @@ def remove_files(in_directory: str) -> None:
     for item in items:
         if not item.count('.'):
             remove_files(in_directory + "/" + str(item))
-        if item.endswith('.js') or item.endswith('.map'):
+        if item.endswith('.js') or item.endswith('.map') or item.endswith('.d.ts'):
             print(f"Now removing: {str(item)}")
             os.remove(in_directory + "/" + str(item))
 
