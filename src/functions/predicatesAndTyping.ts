@@ -17,7 +17,7 @@ export const isSameType = (...args: unknown[]): boolean => {
  * @param callback Condition callback function
  * @returns `Arrow function`, which returns `checkingVariable` is `T` *(boolean)*
  */
-export function generateConditionalTypeGuard<T>(callback: (entity: T) => boolean): 
+export function generateConditionalGuard<T>(callback: (entity: T) => boolean): 
 (checkingVariable: unknown) => checkingVariable is T {
     return (checkingVariable: unknown): checkingVariable is T => {
         return callback(checkingVariable as T);
@@ -29,25 +29,23 @@ export function generateConditionalTypeGuard<T>(callback: (entity: T) => boolean
  * 
  * @description Function generator for *type guarding*
  * @param prop Property to check *(must be string or symbol)*
- * @param propType This property `type` alias primitive in string
+ * @param propPrimitive This property `type` alias primitive in string
  * @returns `Arrow function`, which returns `checkingVariable` is `T` *(boolean)*
  */
-export function generateTypeGuard<T>(prop: keyof T, propPrimitive: string | symbol): 
+export function generateGuard<T>(prop: keyof T, propPrimitive: string | symbol): 
 (checkingVariable: unknown) => checkingVariable is T {
     return (checkingVariable: unknown): checkingVariable is T => {
         return typeof (checkingVariable as Required<T>)[prop as keyof T] === propPrimitive;
     }
 }
 
-
 /**
  * 
- * @description Function generator for *type guarding*
- * @param prop Property to check *(must be string or symbol)*
- * @param propType This property `type` alias primitive in string
- * @returns `Arrow function`, which returns `checkingVariable` is `T` *(boolean)*
+ * @param isValid Callback function, that have to return true ro 
+ * @param errorMessage 
+ * @returns 
  */
-function generateAssertPredicate <T>(
+export function generateAsserter <T>(
     isValid: (source: unknown, ...args: unknown[]) => source is T | boolean,
     errorMessage: string
 ): (checkingVariable: unknown) => asserts checkingVariable is T {
@@ -57,34 +55,51 @@ function generateAssertPredicate <T>(
     }
 }
 
-
-export interface Predicates {
-    guard: ReturnType<typeof generateTypeGuard>,
-    asserter: ReturnType<typeof generateAssertPredicate>
-}
-
-export interface GuardOptions<T> {
-    prop: keyof T
-    propPrimitive: string | symbol
-}
-
-export interface AsserterOptions<T> {
-    isValid: (source: unknown, ...args: unknown[]) => source is T | boolean
-    errorMessage: string
+export interface Predicates<T> {
+    guard: ReturnType<typeof generateGuard<T>>,
+    assert: ReturnType<typeof generateAsserter<T>>
 }
 
 /**
- * @description Asserter and guard generator
- * @param guardOptions Type guard function options
- * @param asserterOptions Type asserter function options 
- * @returns `Predicates` type object, which have asserter and guard bundled in one object
+ * @description Generates predicates by provided validation callback
+ * @param errorMessage Error message `string` for *asserter*
+ * @param validation Validation `callback`, like in *conditional type guard*
+ * @returns Object with both asserter and type guard
  */
-export function generatePredicates <T>(
-    guardOptions: GuardOptions<T>,
-    asserterOptions: AsserterOptions<T>
-): Predicates {
-    return {
-        guard: generateTypeGuard(guardOptions.prop, guardOptions.propPrimitive),
-        asserter: generateAssertPredicate(asserterOptions.isValid, asserterOptions.errorMessage) 
+export function generatePredicates<T>(
+    errorMessage: string,
+    validation: (source: unknown, ...args: unknown[]) => boolean
+): Predicates<T>
+
+/**
+ * @description Generates predicates by provided property and its primitive
+ * @param prop Property to check *(must be string or symbol)*
+ * @param propPrimitive This property `type` alias primitive in string
+ * @returns Object with both asserter and type guard
+ */
+export function generatePredicates<T>(
+    errorMessage: string,
+    prop: keyof T, 
+    propPrimitive: string | symbol    
+): Predicates<T>
+
+export function generatePredicates<T>(
+    errorMessage: string,
+    validationOrProp: keyof T | ((source: unknown, ...args: unknown[]) => boolean),
+    propPrimitive?: string | symbol
+): any {
+    if (validationOrProp instanceof Function) {
+        return {
+            guard: generateConditionalGuard<T>(validationOrProp),
+            assert: generateAsserter<T>(validationOrProp as (source: unknown, ...args: unknown[]) => source is T | boolean, errorMessage) 
+        }
+    } else if (propPrimitive) {
+        const guard = generateGuard<T>(validationOrProp, propPrimitive)
+        return {
+            guard,
+            assert: generateAsserter<T>(
+                guard, errorMessage
+            ) 
+        }
     }
 }

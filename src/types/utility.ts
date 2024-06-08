@@ -22,8 +22,19 @@ export type ValueOf<T> = T extends unknown[] ? T[number] : T extends object ? T[
  */
 export type FromArray<T> = T extends (infer U)[] ? U : T
 
-export type ExcludeNullable<T> = T extends object ? DeepRequired<T> : Exclude<T, null | undefined | never | void | "">
+/**
+ * @description Excludes all nullable unions in nested fields
+ */
+export type ExcludeNullable<T> =  T extends object ? {
+    [P in keyof T]: ExcludeNullable<T[P]>
+} : Exclude<T, null | undefined | never | void>
 
-export type ExcludeActual<T> = T extends infer U ? Exclude<T, ExcludeNullable<U>> : T
+/**
+ * @description Excludes all primitive types from union type in nested properties
+ */
+export type ExcludeActual<T> = T extends object ? {
+    [P in keyof T]: ExcludeActual<T[P]>
+} : Exclude<T, string | number | T[] | symbol | bigint>
 
-export type ActualReturnType<T> = T extends (args: any[]) => Promise<any> ? ExcludeActual<Awaited<ReturnType<T>>> : T extends (args: any[]) => any ? ExcludeActual<ReturnType<T>> : never
+
+export type ActualReturnType<T> = T extends (args: any[]) => Promise<any> ? ExcludeNullable<Awaited<ReturnType<T>>> : T extends (args: any[]) => any ? ExcludeNullable<ReturnType<T>> : never
