@@ -376,6 +376,7 @@ const user: User = {
 const userWithoutCC: Pick<User, "age" | "name"> = pickProperties(user, "age", "name")
 
 
+
 ```
 ---
 If you have ideas for enhanching TypeScript with assets similar to those or upgrading current functional, contact me by email or make pull request to this repo. If you are adding new assets and tests running on GitHub Actions are not completing, your PR will be never approved.
