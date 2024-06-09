@@ -1,4 +1,4 @@
-# **TypeScriptAssets** - enhance your *TypeScript*
+# **Typing Assets** - enhance your *TypeScript*
 ### Powerful library for *TypeScript*, that provides better typing support with additional *utility generics* and *typing predicates*
 
 This library was made for advanced *TypeScript* users, if you do not now what is *type guard*, *assert* keyword, *utility generics*, then you should read blogs below and then come back to this library
@@ -6,7 +6,7 @@ This library was made for advanced *TypeScript* users, if you do not now what is
 + [Asserters guide](https://blog.logrocket.com/assertion-functions-typescript/)
 + [Type guards guide](https://blog.logrocket.com/how-to-use-type-guards-typescript/)
 ---
-### What **TypeScriptAssets** can do?
+### What **Typing Assets** can do?
 
 Additional **utility** types
 + New utility types will make your type aggregation more comfortable
@@ -23,6 +23,15 @@ Type **predicators generation**
 **Property aggregation** functions
 + Pick and remove properties with *type safety*
 + ***100%* Test coverage**
+
+### Usage:
+```TypeScript
+import {isSameType} from "typing-assets/src"
+
+// false
+isSameType(1, "1", [1])
+
+```
 
 ### Documantation map:
 > [**Utility types**](#utility-generic-types)
