@@ -39,15 +39,18 @@ export function generateGuard<T>(prop: keyof T, propPrimitive: string | symbol):
     }
 }
 
+
+export type Asserter<T> = (checkingVariable: unknown) => asserts checkingVariable is T
+
 /**
- * 
+ * @param errorMessage Error message `string`
  * @param isValid Callback function, that have to return true ro 
- * @param errorMessage 
- * @returns 
+ * 
+ * @returns Type asserter which asserts `checkingVariable` is `T` *(boolean)*
  */
 export function generateAsserter <T>(
-    isValid: (source: unknown, ...args: unknown[]) => source is T | boolean,
-    errorMessage: string
+    errorMessage: string,
+    isValid: (source: unknown, ...args: unknown[]) => boolean,
 ): (checkingVariable: unknown) => asserts checkingVariable is T {
     return (source: unknown, ...args: unknown[]): asserts source is T => {
         const state = isValid(source, ...args)
@@ -73,6 +76,7 @@ export function generatePredicates<T>(
 
 /**
  * @description Generates predicates by provided property and its primitive
+ * @param errorMessage Error message `string` for *asserter*
  * @param prop Property to check *(must be string or symbol)*
  * @param propPrimitive This property `type` alias primitive in string
  * @returns Object with both asserter and type guard
@@ -91,14 +95,14 @@ export function generatePredicates<T>(
     if (validationOrProp instanceof Function) {
         return {
             guard: generateConditionalGuard<T>(validationOrProp),
-            assert: generateAsserter<T>(validationOrProp as (source: unknown, ...args: unknown[]) => source is T | boolean, errorMessage) 
+            assert: generateAsserter<T>(errorMessage, validationOrProp as (source: unknown, ...args: unknown[]) => source is T | boolean) 
         }
     } else if (propPrimitive) {
         const guard = generateGuard<T>(validationOrProp, propPrimitive)
         return {
             guard,
             assert: generateAsserter<T>(
-                guard, errorMessage
+                errorMessage, guard
             ) 
         }
     }

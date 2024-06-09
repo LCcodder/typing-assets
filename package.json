@@ -1,13 +1,17 @@
 {
   "name": "typing-assets",
-  "version": "1.2.4",
+  "version": "1.0.1",
   "description": "Additional typing assets and helpers for better TypeScript experience",
   "main": "src/index.ts",
   "types": "scr/types.d.ts",
   "bugs": {
-    "url": "https://github.com/LCcodder/TypeScriptAssets/issues/new"
+    "url": "https://github.com/LCcodder/typing-assets/issues/new"
   },
-  "homepage": "https://github.com/LCcodder/TypeScriptAssets",
+  "homepage": "https://github.com/LCcodder/typing-assets",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/LCcodder/typing-assets"
+  },
   "scripts": {
     "test": "jest --watch=all"
   },

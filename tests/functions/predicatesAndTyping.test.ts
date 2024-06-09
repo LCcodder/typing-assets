@@ -1,5 +1,5 @@
 import { describe, test, expect } from "@jest/globals"
-import {isSameType, generateConditionalGuard, generateAsserter, generateGuard, generatePredicates, Predicates} from "../../src/functions/predicatesAndTyping"
+import {isSameType, generateConditionalGuard, generateAsserter, generateGuard, generatePredicates, Predicates, Asserter} from "../../src/functions/predicatesAndTyping"
 
 
 describe("isSameType function", () => {
@@ -75,6 +75,37 @@ describe("generateGuard function", () => {
         }
 
         expect(guard(testUser)).toEqual(true)
+    })
+})
+
+
+describe("generateAsserter function", () => {
+    const assert: Asserter<User> = generateAsserter(
+        "Name does not starts with 'A'",
+        (source: unknown) => !(source as User).name.startsWith("A")
+    )
+    
+    // type asserter tests
+    test("Testing asserter to complete", () => {
+        const testUser = {
+            id: 123,
+            name: "Lisa",
+            age: 19
+        }
+        expect(assert(testUser)).toEqual(undefined)
+    })
+
+    test("Testing asserter to throw error", () => {
+        const testUser = {
+            id: 123,
+            name: "Alex",
+            age: 19
+        }
+        try {
+            assert(testUser)   
+        } catch (error) {
+            expect(error).toBeDefined()
+        }
     })
 })
 
