@@ -1,6 +1,6 @@
 {
   "name": "typing-assets",
-  "version": "1.0.1",
+  "version": "1.0.0",
   "description": "Additional typing assets and helpers for better TypeScript experience",
   "main": "src/index.ts",
   "types": "scr/types.d.ts",
