@@ -24,6 +24,11 @@ Type **predicators generation**
 + Pick and remove properties with *type safety*
 + ***100%* Test coverage**
 
+### Install:
+```shell
+npm i typing-assets
+```
+
 ### Usage:
 ```TypeScript
 import {isSameType} from "typing-assets/src"
