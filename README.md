@@ -37,6 +37,7 @@ import {isSameType} from "typing-assets/src"
 isSameType(1, "1", [1])
 
 ```
++ Always use `import {...} from "typing-assets/src"` with `src` subdir
 
 ### Documantation map:
 > [**Utility types**](#utility-generic-types)

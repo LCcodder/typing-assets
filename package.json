@@ -1,9 +1,9 @@
 {
   "name": "typing-assets",
-  "version": "2.0.1",
+  "version": "2.0.3",
   "description": "Additional typing assets and helpers for better TypeScript experience",
-  "main": "src/index.ts",
-  "types": "scr/types.d.ts",
+  "main": "./src/index.ts",
+  "types": "./scr/types.d.ts",
   "bugs": {
     "url": "https://github.com/LCcodder/typing-assets/issues/new"
   },
