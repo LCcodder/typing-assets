@@ -6,7 +6,10 @@
  */
 export const excludeProperties = <TSource, TProp extends keyof TSource> (source: TSource, ...args: TProp[]): Omit<TSource, TProp> => {
     for (const key in source) {
-        if ([...args].includes(key as string as TProp )) delete source[key]
+        if ([...args].includes(key as string as TProp )) {
+            source[key] = undefined as any
+            delete source[key]
+        }
     }
     return source
 }
@@ -20,7 +23,10 @@ export const excludeProperties = <TSource, TProp extends keyof TSource> (source:
  */
 export const pickProperties = <TSource, TProp extends keyof TSource>(source: TSource, ...args: TProp[]): Pick<TSource, TProp> => {
     for (const key in source) {
-        if (![...args].includes(key as string as TProp )) delete source[key]
+        if (![...args].includes(key as string as TProp )) {
+            source[key] = undefined as any
+            delete source[key]
+        }
     }
     return source
 }

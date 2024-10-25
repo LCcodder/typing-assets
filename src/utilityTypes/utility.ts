@@ -36,5 +36,15 @@ export declare type ExcludeActual<T> = T extends object ? {
     [P in keyof T]: ExcludeActual<T[P]>
 } : Exclude<T, string | number | T[] | symbol | bigint>
 
-
+/**
+ * @description Returns actual return type of function, resolving all promises and excluding nullables
+ */
 export declare type ActualReturnType<T> = T extends (args: any[]) => Promise<any> ? ExcludeNullable<Awaited<ReturnType<T>>> : T extends (args: any[]) => any ? ExcludeNullable<ReturnType<T>> : never
+
+/**
+ * @description Changes type of property(es) to provided type primitive
+ * @T Providing type
+ * @P Property which type will be replaced
+ * @C Replacing type
+ */
+export type ChangePropertyType<T, P extends keyof T, C> = Omit<T, P> & { [P in keyof T]: C }
