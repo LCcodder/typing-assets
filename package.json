@@ -1,6 +1,6 @@
 {
   "name": "typing-assets",
-  "version": "2.1.4",
+  "version": "2.1.5",
   "description": "Additional typing assets and helpers for better TypeScript experience",
   "main": "build/index.js",
   "types": "build/index.d.ts",
