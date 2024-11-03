@@ -35,7 +35,7 @@ export function generateConditionalGuard<T>(callback: (entity: T) => boolean):
 export function generateGuard<T>(prop: keyof T, propPrimitive: string | symbol): 
 (checkingVariable: unknown) => checkingVariable is T {
     return (checkingVariable: unknown): checkingVariable is T => {
-        return typeof (checkingVariable as Required<T>)[prop as keyof T] === propPrimitive;
+        return Boolean(checkingVariable) && typeof (checkingVariable as Required<T>)[prop as keyof T] === propPrimitive;
     }
 }
 

@@ -67,6 +67,10 @@ describe("generateGuard function", () => {
         expect(guard(testUser)).toEqual(false)
     })
 
+    test("Testing for guard failure (with undefined)", () => {
+        expect(guard(undefined)).toEqual(false)
+    })
+
     test("Testing for guard success", () => {
         const testUser = {
             id: 123,
