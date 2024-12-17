@@ -396,4 +396,12 @@ const userWithoutCC: Pick<User, "age" | "name"> = pickProperties(user, "age", "n
 ---
 If you have ideas for enhanching TypeScript with assets similar to those or upgrading current functional, contact me by email or make pull request to this repo. If you are adding new assets and tests running on GitHub Actions are not completing, your PR will be never approved.
 
-Made and documented by [**LCcodder**](https://github.com/LCcodder)
+Made and documented by [**LCcodder**](https://github.com/LCcodder) 🩷
+
+## Donate:
+
+**ETH:** `0xE1A9C5ab7e13D6F0E7D8028247893F0B17906583` 
+
+**BTC:** `bc1qm9qkflhhv4fypyqm55ukukfu08f3k4d9aycuys`
+
+**USDT (TRC-20):** `TT6U3gowuuqwDDpRMiwsffeYPjXAbuTq3i`
